@@ -36,7 +36,7 @@ spec:
         - env:
             - name: TEST
               value: test
-          image: 
+          image: sample-app:v1
           command: ["uvicorn", "main:app", "--port", "8000", "--no-use-colors"]
           ports:
             - containerPort: 8000
