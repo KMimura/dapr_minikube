@@ -1,0 +1,8 @@
+version: "3.0"
+
+services:
+  sample-app:
+    image: sample-app:v1
+    build: .
+    ports:
+      - 80:80

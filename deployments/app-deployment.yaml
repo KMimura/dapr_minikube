@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: sample-app
+  name: sample-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: sample-app
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.26.0 (40646f47)
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "sample-app"
+        dapr.io/app-port: "8000"
+        dapr.io/sidecar-cpu-request: "250m"
+        dapr.io/sidecar-memory-request: "512Mi"
+        dapr.io/log-as-json: "true"
+        dapr.io/log-level: "warn"
+        dapr.io/http-max-request-size: "10"
+      creationTimestamp: null
+      labels:
+        io.kompose.service: sample-app
+    spec:
+      containers:
+        - env:
+            - name: TEST
+              value: test
+          image: sample-app:v1
+          command: ["uvicorn", "main:app", "--port", "8000", "--no-use-colors"]
+          ports:
+            - containerPort: 8000
+          name: sample-app
+          resources: {}
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 25
+status: {}
